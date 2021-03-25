@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Member/Views/Shared/_MemberLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-6 my-2">
+        <div class="card bg-light ">
+            <div class="card-body text-center">
+                <h4 class="card-title">Aktif Görevler</h4>
+                @if (@ViewBag.TamamlanmasıGerekenGorevSayisi > 0)
+                {
+                    <p class="card-text display-4">@ViewBag.TamamlanmasıGerekenGorevSayisi</p>
+                    <p>İncelemek için <a asp-action="Index" asp-controller="Isemri" class="btn btn-primary btn-sm">tıklayınız<i class="fas fa-chevron-circle-right ml-2"></i></a></p>
+                }
+                else
+                {
+                    <p class="card-text lead"> Herhangi bir aktif göreviniz bulunmamaktadır.</p>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 my-2">
+        <div class="card bg-light ">
+            <div class="card-body text-center">
+                <h4 class="card-title">Tamamlanan Görev Sayısı</h4>
+                @if (@ViewBag.TamamlananGorevSayisi > 0)
+                {
+                    <p class="card-text display-4">@ViewBag.TamamlananGorevSayisi</p>
+                    <p>İncelemek için <a asp-action="Index" asp-controller="Gorev" class="btn btn-primary btn-sm">tıklayınız<i class="fas fa-chevron-circle-right ml-2"></i></a></p>
+                }
+                else
+                {
+                    <p class="card-text lead"> Herhangi bir görev tamamlamamışsınız.</p>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 my-2">
+        <div class="card bg-light ">
+            <div class="card-body text-center">
+                <h4 class="card-title">Yazdığınız Rapor Sayısı</h4>
+                @if (@ViewBag.RaporSayisi > 0)
+                {
+                    <p class="card-text display-4">@ViewBag.RaporSayisi</p>
+                }
+                else
+                {
+                    <p class="card-text lead"> Herhangi bir rapor yazmamışsınız.</p>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 my-2">
+        <div class="card bg-light ">
+            <div class="card-body text-center">
+                <h4 class="card-title">Okunmamış Bildirimler</h4>
+                @if (@ViewBag.OkunmamisBildirimSayisi > 0)
+                {
+                    <p class="card-text display-4">@ViewBag.OkunmamisBildirimSayisi</p>
+                    <p>İncelemek için <a asp-action="Index" asp-controller="Bildirim" class="btn btn-primary btn-sm">tıklayınız<i class="fas fa-chevron-circle-right ml-2"></i></a></p>
+                }
+                else
+                {
+                    <p class="card-text lead"> Okunmamış bildiriminiz bulunmamaktadır.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

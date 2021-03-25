@@ -1,0 +1,105 @@
+﻿@model List<GorevListAllDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Member/Views/Shared/_MemberLayout.cshtml";
+    int index = 0;
+}
+
+@foreach (var gorev in Model)
+{
+    index++;
+    <div class="card my-1">
+        <h5 class="card-header">@gorev.Ad</h5>
+        <div class="card-body">
+            <h5 class="card-title"><span class="text-danger">Aciliyet Durumu:</span> 
+            <span class="lead font-italic font-weight-bold font-italic">@gorev.Aciliyet.Tanim</span></h5>
+            <p class="card-text">@gorev.Aciklama</p>
+            <p class="text-right">
+                @if (gorev.Raporlar.Count > 0)
+                {
+                    <a class="btn btn-light" data-toggle="collapse" href="#collapseExample-@index" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        Raporlara Git<i class="fas fa-caret-square-down mr-2 ml-2"></i>
+                        <span class="badge badge-danger">@gorev.Raporlar.Count</span>
+                    </a>
+                }
+                else
+                {
+                    <span class="lead font-italic font-weight-bold font-italic d-block">Hiç rapor yazılmamış. Görev hakkında rapor yazınız.</span>
+                    <a asp-action="EkleRapor" asp-route-id="@gorev.Id" class="btn btn-light">
+                        Rapor Yaz<i class="fas fa-caret-square-down mr-2 ml-2"></i>
+                    </a>
+                }
+                <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-id="@gorev.Id">Tamamlandı</a>
+            </p>
+            <div class="collapse" id="collapseExample-@index">
+                <a asp-action="EkleRapor" asp-route-id="@gorev.Id" class="btn btn-light">
+                    <i class="fa fa-plus-circle mr-2"></i>Rapor Yaz
+                </a>
+                <table class="table table-hover table-bordered">
+                    <tr>
+                        <th>Tanım</th>
+                        <th>Detay</th>
+                        <th>İşlem</th>
+                    </tr>
+                    @foreach (var rapor in gorev.Raporlar)
+                    {
+                        <tr>
+                            <td>@rapor.Tanim</td>
+                            <td>@rapor.Detay</td>
+                            <td><a asp-action="GuncelleRapor" asp-route-id="@rapor.Id" class="btn btn-primary">Düzenle<i class="far fa-edit ml-2"></i></a></td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">UYARI</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center lead">
+                Bu işlemi gerçekleştirmek istediğinizden eimin misiniz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hayır</button>
+                <button id="btnKaydet" type="button" class="btn btn-primary">Evet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section JavaScript{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#exampleModal").on("show.bs.modal", function (event) {
+                let tetikleyenElement = $(event.relatedTarget);
+                let id = tetikleyenElement.data("id");
+
+                $("#btnKaydet").click(function () {
+                    $.ajax({
+                        type: "get",
+                        url: "./IsEmri/TamamlaGorev",
+                        data: { gorevId: id },
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8;",
+                        success: function () {
+                            window.location.reload();
+                        },
+                        error: function (error) {
+                            alert(error.responseText);
+                        }
+                    })
+                });
+            })
+        });
+    </script>
+}

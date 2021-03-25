@@ -1,0 +1,43 @@
+﻿@model RaporAddDto
+@{
+    ViewData["Title"] = "EkleRapor";
+    Layout = "~/Areas/Member/Views/Shared/_MemberLayout.cshtml";
+}
+<form asp-action="EkleRapor" method="post" class="w-75 mx-auto p-3">
+    <div class="card bg-light mt-2">
+        <div class="card-header">
+            <p class="card-text">
+                <span class="text-danger">Görevin Adı:</span> @Model.Gorev.Ad
+            </p>
+        </div>
+        <div class="card-body">
+            <p class="card-text">
+                <span class="text-danger">Görevin Aciliyet Durumu:</span> @Model.Gorev.Aciliyet.Tanim
+            </p>
+            <p class="card-text">
+                <span class="text-danger">Görevin Açıklaması:</span> @Model.Gorev.Aciklama
+            </p>
+
+        </div>
+    </div>
+    <input type="hidden" asp-for="GorevId" />
+    <div class="form-group">
+        <label asp-for="Tanim">Tanım: </label>
+        <span asp-validation-for="Tanim" class="text-danger"></span>
+        <input asp-for="Tanim" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Detay">Detay:</label>
+        <span asp-validation-for="Detay" class="text-danger"></span>
+        <textarea asp-for="Detay" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <a asp-action="Index" class="btn btn-warning">Vazgeç<i class="fas fa-chevron-circle-left ml-2"></i></a>
+        <button type="submit" class="btn btn-success">Kaydet<i class="fa fa-check-circle ml-2"></i></button>
+    </div>
+</form>
+
+@section JavaScript{
+    <script src="~/lib/jqueryValidate/jquery.validate.min.js"></script>
+    <script src="~/lib/jqueryUnob/jquery.validate.unobtrusive.min.js"></script>
+}

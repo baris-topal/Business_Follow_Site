@@ -1,0 +1,73 @@
+﻿@model AppUserListDto
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Member/Views/Shared/_MemberLayout.cshtml";
+}
+
+@if (TempData["mesaj"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        @TempData["mesaj"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<form asp-action="Index" method="post" class="w-75 mx-auto p-3" enctype="multipart/form-data">
+    <input type="hidden" asp-for="@Model.Id" />
+    <div class="form-group">
+        <label asp-for="@Model.Name">Ad: </label>
+        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+        <input asp-for="@Model.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.SurName">Soyad: </label>
+        <span asp-validation-for="@Model.SurName" class="text-danger"></span>
+        <input asp-for="@Model.SurName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Email">Email: </label>
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+        <input asp-for="@Model.Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <h5>Şuan ki fotoğrafınız</h5>
+                    <img src="~/img/@Model.Picture" style="height:13rem!important; width:13rem!important" alt="@Model.Name" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center" id="alanOnizleme" style="display:none!important;">
+                    <h5>Seçtiğiniz fotoğraf</h5>
+                    <img id="fotoOnizleme" style="height:13rem!important; width:13rem!important" />
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-12">
+                <label>Fotoğraf Seç:</label>
+                <input type="file" class="form-control-file mt-1" name="foto" id="Foto" />
+            </div>
+        </div>
+    </div>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-warning btn-sm">Vazgeç<i class="fas fa-chevron-circle-left ml-2 text-left"></i></a>
+    <button type="submit" class="btn btn-success btn-sm">Kaydet<i class="fa fa-check-circle ml-2"></i></button>
+</form>
+
+@section JavaScript
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Foto").change(function (e) {
+                $("#alanOnizleme").show();
+                $("#fotoOnizleme").attr('src', URL.createObjectURL(e.target.files[0]));
+            });
+        });
+    </script>
+}
+
+
